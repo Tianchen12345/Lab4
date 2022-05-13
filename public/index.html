@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Cars Info: Lab 5</title>
+  </head>
+  <link href ="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+  <link href="/styles.css" rel = "stylesheet" type="text/css" />
+  <body>
+    <h1 class= "title"> Cars Info</h1>
+    <div id ="homepage">
+
+    <h1>Learn more on Cars</h1>
+    <div id="Cars"></div>
+    </div>
+
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/react@15/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+
+        <!-- Create React Component -->
+        <script type="text/babel">
+        var Cars = React.createClass({
+            getInitialState: function(){
+                return({
+                    cars: []
+                });
+            },
+            render: function(){
+
+                cars = cars.map(function(car, index){
+                    return(
+                        <li key={index}>
+                            <span className={car.obj.available}></span>
+                            <span className="Car_ID">{car.obj.Car_ID}</span>
+                            <span className="Year">{ninja.obj.Year}</span>
+                            <span className="Make">{car.obj.Make}</span>
+                            <span className="Model">{ninja.obj.Model}</span>
+                        </li>
+                    );
+                });
+                return(
+                    <div id="Car Search">
+                        <form id="search" onSubmit={this.handleSubmit}>
+                            <label>Enter your Car_ID:</label>
+                            <input type="text" ref="car_id" placeholder="year" placeholder="make" placeholder="model" required />
+                            <label>Enter your Year:</label>
+                           <input type="text" ref="year" placeholder="car_id" placeholder="make" placeholder="model" required />
+                           <label>Enter your Make:</label>
+                           <input type="text" ref="make" placeholder='car_id' placeholder="year"  placeholder="model" required />
+                           <label>Enter your Model:</label>
+                          <input type="text" ref="model" placeholder="car_id" placeholder="year" placeholder="make" required />
+                            <input type="submit" value="Find Car" />
+                        </form>
+                        <ul>{cars}</ul>
+                    </div>
+                );
+            },
+            handleSubmit: function(e){
+                e.preventDefault();
+                var car_id = this.refs.car_id.value;
+                var year = this.refs.year.value;
+                var make=this.refs.make.value;
+                var model=this.refs.model.value;
+
+                fetch('/api/cars' ).then(function(data){
+                    return data.json();
+                }).then( json => {
+                    this.setState({
+                        cars: json
+                    });
+                    console.log(json);
+                });
+            }
+        });
+        ReactDOM.render(<Cars />, document.getElementById('cars'));
+
+            </script>
+
+  </body>
+</html>
